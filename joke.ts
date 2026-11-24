@@ -53,5 +53,37 @@ export function validateJoke(text: string): JokeValidationResult {
       reason: `Joke exceeds ${MAX_JOKE_CHARS} characters (${charLength}).`,
     };
   }
+  if (text !== text.trim()) {
+    return {
+      valid: false,
+      charLength,
+      byteLength,
+      reason: "Joke must not contain leading or trailing whitespace.",
+    };
+  }
+  if (/[\r\n\t\0]/.test(text)) {
+    return {
+      valid: false,
+      charLength,
+      byteLength,
+      reason: "Joke must be a single line without control characters.",
+    };
+  }
+  if (Buffer.from(text, "utf8").toString("utf8") !== text) {
+    return {
+      valid: false,
+      charLength,
+      byteLength,
+      reason: "Joke must be valid UTF-8 without unpaired surrogates.",
+    };
+  }
   return { valid: true, charLength, byteLength };
+}
+
+export function getValidatedEntry(): string {
+  const check = validateJoke(SELECTED_DAD_JOKE);
+  if (!check.valid) {
+    throw new Error(`Invalid dad joke entry: ${check.reason}`);
+  }
+  return SELECTED_DAD_JOKE;
 }
