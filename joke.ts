@@ -7,8 +7,36 @@ export interface JokeValidationResult {
   reason?: string;
 }
 
-// Initial placeholder; will be replaced after pairwise dad joke selection in Milestone 2.
-export const SELECTED_DAD_JOKE = "I told my carpenter his shelves were crooked, but he swore they were on the level.";
+export interface JokeCandidate {
+  id: string;
+  text: string;
+  notes: string;
+}
+
+export const JOKE_CANDIDATES: readonly JokeCandidate[] = [
+  {
+    id: "colander-water",
+    text: "I made a case for buying a new colander, but my wife said it didn't hold water.",
+    notes: "Winner: clean double meaning on 'hold water' and double-antecedent 'it', fresh, warm dinner-table rhythm.",
+  },
+  {
+    id: "scale-weigh-in",
+    text: "We couldn't agree on which bathroom scale to buy, so I decided to weigh in.",
+    notes: "Runner-up: tight and clean pun on 'weigh in', slightly less physical groan than colander.",
+  },
+  {
+    id: "round-table-corners",
+    text: "I hired a carpenter to build a round dining table, and I'm pretty sure he cut corners.",
+    notes: "Strong third: fresh and clever, slight literal stretch since cutting corners produces an octagon.",
+  },
+  {
+    id: "parking-lot-line",
+    text: 'I asked the guy painting the parking lot why he stopped halfway. He said, "You have to draw the line somewhere."',
+    notes: "Fourth: longer two-sentence dialogue and slightly looser logic on stopping halfway.",
+  },
+];
+
+export const SELECTED_DAD_JOKE = JOKE_CANDIDATES[0].text;
 
 export function validateJoke(text: string): JokeValidationResult {
   const charLength = Array.from(text).length;
